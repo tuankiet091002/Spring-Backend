@@ -29,40 +29,19 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests(
                         configurer -> configurer
                                 .antMatchers(HttpMethod.POST, "/user/login", "user/register").permitAll()
-                                // Syllabus, Learning Objective
-                                .antMatchers(HttpMethod.POST, "/syllabus/**", "/objective/**")
-                                .hasAnyAuthority("SYLLABUS_FULL_ACCESS", "SYLLABUS_CREATE")
-                                .antMatchers(HttpMethod.PUT, "/syllabus/**", "/objective/**")
-                                .hasAnyAuthority("SYLLABUS_FULL_ACCESS", "SYLLABUS_CREATE", "SYLLABUS_MODIFY")
-                                .antMatchers(HttpMethod.GET, "/syllabus/**", "/objective/**")
-                                .hasAnyAuthority("SYLLABUS_FULL_ACCESS", "SYLLABUS_VIEW",
-                                        "SYLLABUS_MODIFY", "SYLLABUS_CREATE")
-                                // Training Program
-                                .antMatchers(HttpMethod.POST, "/program/**")
-                                .hasAnyAuthority("TRAININGPROGRAM_FULL_ACCESS", "TRAININGPROGRAM_CREATE")
-                                .antMatchers(HttpMethod.PUT, "/program/**")
-                                .hasAnyAuthority("TRAININGPROGRAM_FULL_ACCESS", "TRAININGPROGRAM_CREATE", "TRAININGPROGRAM_MODIFY")
-                                .antMatchers(HttpMethod.GET, "/program/**")
-                                .hasAnyAuthority("TRAININGPROGRAM_FULL_ACCESS", "TRAININGPROGRAM_CREATE",
-                                        "TRAININGPROGRAM_MODIFY", "TRAININGPROGRAM_VIEW")
-                                // Training Material
-                                .antMatchers(HttpMethod.POST, "/material/**")
-                                .hasAnyAuthority("LEARNINGMATERIAL_FULL_ACCESS", "LEARNINGMATERIAL_CREATE")
-                                .antMatchers(HttpMethod.DELETE, "/material/**")
-                                .hasAnyAuthority("LEARNINGMATERIAL_FULL_ACCESS")
                                 // User Management
                                 .antMatchers(HttpMethod.PUT, "/user/**")
-                                .hasAnyAuthority("USERMANAGEMENT_FULL_ACCESS", "USERMANAGEMENT_CREATE", "USERMANAGEMENT_MODIFY")
+                                .hasAnyAuthority("USER_FULL_ACCESS", "USER_CREATE", "USER_MODIFY")
                                 .antMatchers(HttpMethod.GET, "/user/**")
-                                .hasAnyAuthority("USERMANAGEMENT_FULL_ACCESS", "USERMANAGEMENT_CREATE",
-                                        "USERMANAGEMENT_MODIFY", "USERMANAGEMENT_VIEW")
+                                .hasAnyAuthority("USER_FULL_ACCESS", "USER_CREATE",
+                                        "USER_MODIFY", "USER_VIEW")
                                 // User Permission
                                 .antMatchers(HttpMethod.PUT, "/permission/**")
-                                .hasAnyAuthority("USERMANAGEMENT_FULL_ACCESS", "USERMANAGEMENT_CREATE",
-                                        "USERMANAGEMENT_MODIFY")
+                                .hasAnyAuthority("USER_FULL_ACCESS", "USER_CREATE",
+                                        "USER_MODIFY")
                                 .antMatchers(HttpMethod.GET, "/permission/**")
-                                .hasAnyAuthority("USERMANAGEMENT_FULL_ACCESS", "USERMANAGEMENT_CREATE",
-                                        "USERMANAGEMENT_MODIFY", "USERMANAGEMENT_VIEW")
+                                .hasAnyAuthority("USER_FULL_ACCESS", "USER_CREATE",
+                                        "USER_MODIFY", "USER_VIEW")
                                 .anyRequest().permitAll()
                         // 25
                 )

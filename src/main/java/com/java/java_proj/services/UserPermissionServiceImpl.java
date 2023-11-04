@@ -1,7 +1,7 @@
 package com.java.java_proj.services;
 
 import com.java.java_proj.dto.request.forupdate.URequestUserPermission;
-import com.java.java_proj.dto.response.forlist.LRepsonseUserPermission;
+import com.java.java_proj.dto.response.forlist.LResponseUserPermission;
 import com.java.java_proj.entities.User;
 import com.java.java_proj.entities.UserPermission;
 import com.java.java_proj.entities.enums.PermissionAccessType;
@@ -28,11 +28,11 @@ public class UserPermissionServiceImpl implements UserPermissionService {
                 ((CustomUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
     }
 
-    public List<LRepsonseUserPermission> getAll() {
+    public List<LResponseUserPermission> getAll() {
         return userPermissionRepository.findAllBy();
     }
 
-    public List<LRepsonseUserPermission> updateAll(List<URequestUserPermission> userPermissionList) {
+    public List<LResponseUserPermission> updateAll(List<URequestUserPermission> userPermissionList) {
 
         User owner = getOwner();
 
@@ -49,11 +49,10 @@ public class UserPermissionServiceImpl implements UserPermissionService {
             }
 
             try {
-                userPermission.setSyllabus(PermissionAccessType.valueOf(request.getSyllabus()));
-                userPermission.setTrainingProgram(PermissionAccessType.valueOf(request.getTrainingProgram()));
-                userPermission.setClassManagement(PermissionAccessType.valueOf(request.getClassManagement()));
-                userPermission.setLearningMaterial(PermissionAccessType.valueOf(request.getLearningMaterial()));
+
                 userPermission.setUserManagement(PermissionAccessType.valueOf(request.getUserManagement()));
+                userPermission.setDocumentManagement(PermissionAccessType.valueOf(request.getDocumentManagement()));
+
             } catch (IllegalArgumentException e) {
                 throw new HttpException(HttpStatus.BAD_REQUEST,
                         "Wrong permission access value, accepted value: ACCESS_DENIED, VIEW, MODIFY, CREATE, ALL_ACCESS");

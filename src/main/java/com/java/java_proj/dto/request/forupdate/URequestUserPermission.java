@@ -17,15 +17,7 @@ public class URequestUserPermission {
     public String syllabus;
 
     @NotNull
-    public String trainingProgram;
-
-    @NotNull
-    public String classManagement;
-
-    @NotNull
-    public String learningMaterial;
-
-    @NotNull
     public String userManagement;
-
+    @NotNull
+    public String documentManagement;
 }

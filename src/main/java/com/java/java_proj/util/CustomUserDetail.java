@@ -20,11 +20,8 @@ public class CustomUserDetail implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         String[] authorityList = {
                 user.getRole().getRole(),
-                "SYLLABUS_" + user.getRole().getSyllabus().toString(),
-                "TRAININGPROGRAM_" + user.getRole().getTrainingProgram().toString(),
-                "CLASSMANAGEMENT_" + user.getRole().getClassManagement().toString(),
-                "LEARNINGMATERIAL_" + user.getRole().getLearningMaterial().toString(),
-                "USERMANAGEMENT_" + user.getRole().getUserManagement().toString()
+                "DOCUMENT_" + user.getRole().getDocumentManagement().toString(),
+                "USER_" + user.getRole().getUserManagement().toString()
         };
         return List.of(
                 new SimpleGrantedAuthority(authorityList[0]),

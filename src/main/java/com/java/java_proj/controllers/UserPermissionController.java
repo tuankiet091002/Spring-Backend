@@ -1,7 +1,7 @@
 package com.java.java_proj.controllers;
 
 import com.java.java_proj.dto.request.forupdate.URequestUserPermission;
-import com.java.java_proj.dto.response.forlist.LRepsonseUserPermission;
+import com.java.java_proj.dto.response.forlist.LResponseUserPermission;
 import com.java.java_proj.exceptions.HttpException;
 import com.java.java_proj.services.templates.UserPermissionService;
 import io.swagger.annotations.Api;
@@ -22,15 +22,15 @@ public class UserPermissionController {
     UserPermissionService userPermissionService;
 
     @GetMapping("")
-    public ResponseEntity<List<LRepsonseUserPermission>> getAllUserPermissions() {
+    public ResponseEntity<List<LResponseUserPermission>> getAllUserPermissions() {
 
-        List<LRepsonseUserPermission> userPermissionList = userPermissionService.getAll();
+        List<LResponseUserPermission> userPermissionList = userPermissionService.getAll();
 
         return new ResponseEntity<>(userPermissionList, HttpStatus.OK);
     }
 
     @PutMapping("")
-    public ResponseEntity<List<LRepsonseUserPermission>>
+    public ResponseEntity<List<LResponseUserPermission>>
     updateAllUserPermission(@RequestBody List<URequestUserPermission> newUserPermission,
                             BindingResult bindingResult) {
 
@@ -38,7 +38,7 @@ public class UserPermissionController {
             throw new HttpException(HttpStatus.BAD_REQUEST, bindingResult);
         }
 
-        List<LRepsonseUserPermission> userPermissionList = userPermissionService.updateAll(newUserPermission);
+        List<LResponseUserPermission> userPermissionList = userPermissionService.updateAll(newUserPermission);
 
         return new ResponseEntity<>(userPermissionList, HttpStatus.OK);
     }

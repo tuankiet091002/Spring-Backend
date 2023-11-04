@@ -1,6 +1,6 @@
 package com.java.java_proj.dto.response.fordetail;
 
-import com.java.java_proj.dto.response.forlist.LRepsonseUserPermission;
+import com.java.java_proj.dto.response.forlist.LResponseUserPermission;
 
 import java.time.LocalDate;
 
@@ -15,7 +15,7 @@ public interface DResponseUser {
 
     public LocalDate getDob();
 
-    public LRepsonseUserPermission getRole();
+    public LResponseUserPermission getRole();
 
     public Boolean getGender();
 

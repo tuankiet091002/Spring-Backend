@@ -21,23 +21,11 @@ public class UserPermission {
     @Column(unique = true, nullable = false)
     private String role;
 
-    @Column(name = "syllabus")
+    @Column(name = "document")
     @Enumerated(EnumType.ORDINAL)
-    private PermissionAccessType syllabus;
+    private PermissionAccessType documentManagement;
 
-    @Column(name = "training_program")
-    @Enumerated(EnumType.ORDINAL)
-    private PermissionAccessType trainingProgram;
-
-    @Column(name = "class")
-    @Enumerated(EnumType.ORDINAL)
-    private PermissionAccessType classManagement;
-
-    @Column(name = "learning_material")
-    @Enumerated(EnumType.ORDINAL)
-    private PermissionAccessType learningMaterial;
-
-    @Column(name = "user_management")
+    @Column(name = "user")
     @Enumerated(EnumType.ORDINAL)
     private PermissionAccessType userManagement;
 
