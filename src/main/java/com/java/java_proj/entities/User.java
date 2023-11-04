@@ -60,9 +60,6 @@ public class User {
     @Column(name = "modified_date", columnDefinition = "DATE")
     private LocalDate modifiedDate;
 
-    @OneToMany(mappedBy = "createdBy", fetch = FetchType.LAZY)
-    private List<TrainingProgram> trainingPrograms;
-
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<RefreshToken> refreshToken;
 

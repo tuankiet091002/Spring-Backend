@@ -1,6 +1,5 @@
 package com.java.java_proj.repositories;
 
-import com.java.java_proj.dto.request.forupdate.URequestUserPermission;
 import com.java.java_proj.dto.response.forlist.LRepsonseUserPermission;
 import com.java.java_proj.entities.UserPermission;
 import org.springframework.data.jpa.repository.JpaRepository;
