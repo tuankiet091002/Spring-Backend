@@ -64,10 +64,12 @@ public class JavaProjApplication implements CommandLineRunner {
             UserPermission admin = new UserPermission();
             admin.setRole("admin");
             admin.setUserManagement(PermissionAccessType.FULL_ACCESS);
+            admin.setDocumentManagement(PermissionAccessType.FULL_ACCESS);
             // user
             UserPermission user = new UserPermission();
             user.setRole("user");
             user.setUserManagement(PermissionAccessType.VIEW);
+            user.setDocumentManagement(PermissionAccessType.VIEW);
             // adding to db
             userPermissionRepository.save(admin);
             userPermissionRepository.save(user);

@@ -31,9 +31,9 @@ import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/user")
+@CrossOrigin(origins = "http://localhost:3000")
 @Api(tags = "User")
 public class UserController {
 
@@ -52,13 +52,14 @@ public class UserController {
         try {
             // verified user account
             User loginUser = userService.verifyUser(requestLogin);
-
+            System.out.println(loginUser);
             Authentication authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(requestLogin.getEmail(), requestLogin.getPassword()));
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             refreshTokenService.deActiveUserToken(loginUser.getId());
+
 
             ResponseJwt response = new ResponseJwt();
             response.setToken(tokenProvider.generateToken((CustomUserDetail) authentication.getPrincipal()));

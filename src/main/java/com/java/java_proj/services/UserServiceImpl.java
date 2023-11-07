@@ -111,12 +111,13 @@ public class UserServiceImpl implements UserService {
 
         // generate random password
         String password = passwordGenerator.generatePassword(user);
+        System.out.println(user.getEmail() + ": " + password);
         user.setPassword(bCryptPasswordEncoder.encode(password));
 
         userRepository.save(user);
-
-        // mailing
-        emailSender.sendRegistrationSuccessEmail(user, password);
+//
+//        // mailing
+//        emailSender.sendRegistrationSuccessEmail(user, password);
 
         return userRepository.findByEmail(user.getEmail());
     }

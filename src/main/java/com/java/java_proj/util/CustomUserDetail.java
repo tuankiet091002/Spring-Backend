@@ -26,10 +26,7 @@ public class CustomUserDetail implements UserDetails {
         return List.of(
                 new SimpleGrantedAuthority(authorityList[0]),
                 new SimpleGrantedAuthority(authorityList[1]),
-                new SimpleGrantedAuthority(authorityList[2]),
-                new SimpleGrantedAuthority(authorityList[3]),
-                new SimpleGrantedAuthority(authorityList[4]),
-                new SimpleGrantedAuthority(authorityList[5])
+                new SimpleGrantedAuthority(authorityList[2])
         );
 
     }
