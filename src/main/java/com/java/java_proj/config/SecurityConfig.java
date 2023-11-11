@@ -13,10 +13,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig {
 
-    private final String[] swaggerAntPatterns = {"/v2/api-docs", "/configuration/ui", "/swagger-resources/**",
-            "/configuration/security", "/swagger-ui.html", "/webjars/**"};
-
-
     @Bean
     public JwtTokenFilter authenticationJwtTokenFilter() {
         return new JwtTokenFilter();
@@ -28,13 +24,11 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests(
                         configurer -> configurer
                                 .anyRequest().permitAll()
-                        // 25
                 )
                 .csrf().disable()
                 .httpBasic()
                 .and()
                 .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-
 
         return httpSecurity.build();
     }

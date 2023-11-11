@@ -39,10 +39,6 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private DateFormatter dateFormatter;
-    @Autowired
-    private PasswordGenerator passwordGenerator;
-    @Autowired
-    private EmailSender emailSender;
 
     private User getOwner() {
         try {

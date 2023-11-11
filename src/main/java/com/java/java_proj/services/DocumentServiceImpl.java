@@ -4,14 +4,11 @@ import com.java.java_proj.dto.request.forcreate.CRequestDocument;
 import com.java.java_proj.dto.request.forupdate.URequestDocument;
 import com.java.java_proj.dto.response.fordetail.DResponseDocument;
 import com.java.java_proj.entities.Document;
-import com.java.java_proj.entities.User;
 import com.java.java_proj.exceptions.HttpException;
 import com.java.java_proj.repositories.DocumentRepository;
 import com.java.java_proj.services.templates.DocumentService;
-import com.java.java_proj.util.CustomUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -24,12 +21,6 @@ public class DocumentServiceImpl implements DocumentService {
     FirebaseFileService fileService;
     @Autowired
     DocumentRepository documentRepository;
-
-    private User getOwner() {
-        return SecurityContextHolder.getContext().getAuthentication() == null ? null :
-                ((CustomUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-    }
-
 
     @Override
     public List<DResponseDocument> findAll() {
@@ -45,8 +36,6 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public DResponseDocument createDocument(CRequestDocument requestDocument) {
-
-        User owner = getOwner();
 
         try {
 
