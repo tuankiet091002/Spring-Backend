@@ -49,29 +49,24 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<ResponseJwt> login(@Valid @RequestBody RequestLogin requestLogin) {
-        try {
-            // verified user account
-            User loginUser = userService.verifyUser(requestLogin);
-            System.out.println(loginUser);
-            Authentication authentication = authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(requestLogin.getEmail(), requestLogin.getPassword()));
+        // verified user account
+        User loginUser = userService.verifyUser(requestLogin);
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(requestLogin.getEmail(), requestLogin.getPassword()));
 
-            refreshTokenService.deActiveUserToken(loginUser.getId());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        refreshTokenService.deActiveUserToken(loginUser.getId());
 
-            ResponseJwt response = new ResponseJwt();
-            response.setToken(tokenProvider.generateToken((CustomUserDetail) authentication.getPrincipal()));
-            response.setEmail(loginUser.getEmail());
-            response.setId(loginUser.getId());
-            response.setRefreshToken(refreshTokenService.createToken(loginUser.getEmail()).getToken());
-            response.setPermission(loginUser.getRole());
+        ResponseJwt response = new ResponseJwt();
+        response.setToken(tokenProvider.generateToken((CustomUserDetail) authentication.getPrincipal()));
+        response.setEmail(loginUser.getEmail());
+        response.setId(loginUser.getId());
+        response.setRefreshToken(refreshTokenService.createToken(loginUser.getEmail()).getToken());
+        response.setPermission(loginUser.getRole());
 
-            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
-        } catch (Exception e) {
-            throw new HttpException(HttpStatus.BAD_REQUEST, "Login false exception: " + e);
-        }
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/refresh-token")

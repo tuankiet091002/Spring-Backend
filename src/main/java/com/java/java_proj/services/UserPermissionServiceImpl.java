@@ -49,10 +49,7 @@ public class UserPermissionServiceImpl implements UserPermissionService {
             }
 
             try {
-
                 userPermission.setUserManagement(PermissionAccessType.valueOf(request.getUserManagement()));
-                userPermission.setDocumentManagement(PermissionAccessType.valueOf(request.getDocumentManagement()));
-
             } catch (IllegalArgumentException e) {
                 throw new HttpException(HttpStatus.BAD_REQUEST,
                         "Wrong permission access value, accepted value: ACCESS_DENIED, VIEW, MODIFY, CREATE, ALL_ACCESS");
@@ -66,3 +63,4 @@ public class UserPermissionServiceImpl implements UserPermissionService {
     }
 
 }
+

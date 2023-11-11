@@ -73,13 +73,6 @@ public class UserServiceImpl implements UserService {
 
         User owner = getOwner();
 
-        // check role constraint
-        if (Objects.equals(requestUser.getRole(), "super_admin")
-                && (owner == null || !Objects.equals(owner.getRole().getRole(), "super_admin"))) {
-            throw new HttpException(HttpStatus.BAD_REQUEST, "Only Role “Super Admin” can create new user with role “Super Admin”.");
-        }
-
-
         // check if email exist
         DResponseUser oldUser = userRepository.findByEmail(requestUser.getEmail());
         if (oldUser != null) {
@@ -95,9 +88,9 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setName(requestUser.getName());
         user.setEmail(requestUser.getEmail());
+        user.setPassword(bCryptPasswordEncoder.encode(requestUser.getPassword()));
         user.setPhone(requestUser.getPhone());
         user.setGender(requestUser.getGender());
-        user.setStatus(requestUser.getStatus());
         user.setDob(dateFormatter.formatDate((requestUser.getDob())));
 
         // find role
@@ -106,19 +99,12 @@ public class UserServiceImpl implements UserService {
             throw new HttpException(HttpStatus.NOT_FOUND, "Role not found.");
         }
         user.setRole(role);
+        user.setIsActive(true);
         user.setCreatedDate(LocalDate.now());
         user.setCreatedBy(owner);
 
-        // generate random password
-        String password = passwordGenerator.generatePassword(user);
-        System.out.println(user.getEmail() + ": " + password);
-        user.setPassword(bCryptPasswordEncoder.encode(password));
 
         userRepository.save(user);
-//
-//        // mailing
-//        emailSender.sendRegistrationSuccessEmail(user, password);
-
         return userRepository.findByEmail(user.getEmail());
     }
 
@@ -147,10 +133,11 @@ public class UserServiceImpl implements UserService {
         // Set value to user after update to db
         user.setRole(role);
         user.setName(requestUser.getName());
+        user.setPassword(bCryptPasswordEncoder.encode(requestUser.getPassword()));
         user.setPhone(requestUser.getPhone());
         user.setDob(dateFormatter.formatDate(requestUser.getDob()));
         user.setGender(requestUser.getGender());
-        user.setStatus(requestUser.getStatus());
+        user.setIsActive(requestUser.getIsActive());
         user.setModifiedDate(LocalDate.now());
         user.setModifiedBy(owner);
 

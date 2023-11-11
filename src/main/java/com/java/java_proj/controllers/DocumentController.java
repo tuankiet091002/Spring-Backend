@@ -1,59 +1,80 @@
 package com.java.java_proj.controllers;
 
+import com.java.java_proj.dto.request.forcreate.CRequestDocument;
+import com.java.java_proj.dto.request.forupdate.URequestDocument;
 import com.java.java_proj.dto.response.fordetail.DResponseDocument;
-import com.java.java_proj.dto.response.fordetail.LResponseDocument;
+import com.java.java_proj.exceptions.HttpException;
 import com.java.java_proj.services.templates.DocumentService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Null;
+import java.util.List;
 
 @RestController
 @RequestMapping("/document")
-@CrossOrigin(origins = "http://localhost:3000")
-@Api(tags = "Document Controller")
+@Api(tags = "Channel")
 public class DocumentController {
 
     @Autowired
     DocumentService documentService;
 
-    @GetMapping("")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Page<LResponseDocument>> getAllDocument() {
+    @GetMapping()
+    public ResponseEntity<List<DResponseDocument>> getAllDocument() {
 
-        Page<LResponseDocument> documentList = documentService.findAll();
+        List<DResponseDocument> documents = documentService.findAll();
 
-        return new ResponseEntity<>(documentList, HttpStatus.OK);
+        return new ResponseEntity<>(documents, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @GetMapping("/{docId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<DResponseDocument> getOneDocument(@PathVariable Integer docId) {
+    @GetMapping("/{documentId}")
+    public ResponseEntity<DResponseDocument> getOneChannel(@PathVariable Integer documentId) {
 
-        DResponseDocument document = documentService.findById(docId);
+        DResponseDocument documents = documentService.findById(documentId);
+
+        return new ResponseEntity<>(documents, HttpStatus.OK);
+    }
+
+    @PostMapping("")
+    public ResponseEntity<DResponseDocument> createDocument(@Valid @RequestBody CRequestDocument requestChannel,
+                                                          BindingResult bindingResult) {
+
+        // get validation error
+        if (bindingResult.hasErrors()) {
+            throw new HttpException(HttpStatus.BAD_REQUEST, bindingResult);
+        }
+
+        DResponseDocument document = documentService.createDocument(requestChannel);
 
         return new ResponseEntity<>(document, HttpStatus.OK);
     }
 
     @PutMapping("")
-    public ResponseEntity<DResponseDocument> addDocument(@RequestParam(name = "file") MultipartFile file,
-                                                         @RequestParam(name = "name") String name,
-                                                         @RequestParam(name = "description") String description) {
+    public ResponseEntity<DResponseDocument> updateDocument(@Valid @RequestBody URequestDocument requestChannel,
+                                                          BindingResult bindingResult) {
 
+        // get validation error
+        if (bindingResult.hasErrors()) {
+            throw new HttpException(HttpStatus.BAD_REQUEST, bindingResult);
+        }
 
-        DResponseDocument document = documentService.addDocument(name, description, file);
+        DResponseDocument document = documentService.updateDocument(requestChannel);
 
         return new ResponseEntity<>(document, HttpStatus.OK);
     }
 
+    @DeleteMapping("/{documentId}")
+    public ResponseEntity<Null> deleteChannel(@PathVariable Integer documentId) {
 
-    @DeleteMapping("/{docId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteDocument(@PathVariable Integer docId) {
-        documentService.deleteDocument(docId);
+        documentService.deleteFile(documentId);
+
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
-}
 
+}

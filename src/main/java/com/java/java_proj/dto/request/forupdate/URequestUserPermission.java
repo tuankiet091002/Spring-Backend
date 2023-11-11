@@ -1,6 +1,5 @@
 package com.java.java_proj.dto.request.forupdate;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +16,17 @@ public class URequestUserPermission {
     public String syllabus;
 
     @NotNull
-    public String userManagement;
+    public String trainingProgram;
+
     @NotNull
-    public String documentManagement;
+    public String classManagement;
+
+    @NotNull
+    public String learningMaterial;
+
+    @NotNull
+    public String userManagement;
+
 }
+
+

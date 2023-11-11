@@ -19,5 +19,5 @@ public interface DResponseUser {
 
     public Boolean getGender();
 
-    public Boolean getStatus();
+    public Boolean getIsActive();
 }

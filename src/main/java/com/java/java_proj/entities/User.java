@@ -30,21 +30,21 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role")
+    private UserPermission role;
+
     @Column(name = "phone", length = 20, nullable = false, unique = true)
     private String phone;
 
     @Column(name = "dob", nullable = false, columnDefinition = "DATE")
     private LocalDate dob;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role")
-    private UserPermission role;
-
     @Column(name = "gender", columnDefinition = "boolean default true")
     private Boolean gender;
 
-    @Column(name = "status", columnDefinition = "boolean default true")
-    private Boolean status;
+    @Column(name = "is_active", columnDefinition = "boolean default true")
+    private Boolean isActive = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")
@@ -60,20 +60,8 @@ public class User {
     @Column(name = "modified_date", columnDefinition = "DATE")
     private LocalDate modifiedDate;
 
+    @Column
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<RefreshToken> refreshToken;
 
-
-    @Override
-    public String toString() {
-        return "User{ " +
-                "name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", dob=" + dob +
-                ", role=" + role +
-                ", gender=" + gender +
-                ", status=" + status + " " +
-                '}';
-    }
 }

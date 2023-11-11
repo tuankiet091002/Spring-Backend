@@ -6,6 +6,7 @@ import com.java.java_proj.entities.UserPermission;
 import com.java.java_proj.entities.enums.PermissionAccessType;
 import com.java.java_proj.repositories.EmailRepository;
 import com.java.java_proj.repositories.UserPermissionRepository;
+import com.java.java_proj.services.FirebaseFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,20 +17,20 @@ import java.util.List;
 
 @SpringBootApplication
 public class JavaProjApplication implements CommandLineRunner {
-
+    @Autowired
+    FirebaseFileService fileService;
     @Autowired
     private UserPermissionRepository userPermissionRepository;
-
     @Autowired
     private EmailRepository emailRepository;
 
     public static void main(String[] args) throws IOException {
         SpringApplication.run(JavaProjApplication.class, args);
-
     }
 
     @Override
     public void run(String... args) {
+        fileService.init();
         this.autoUserPermission();
         this.autoEmailContent();
     }

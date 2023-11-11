@@ -12,10 +12,13 @@ public class URequestUser {
 
     private Integer id;
 
-    @NotBlank(message = "Name is required.")
+    @NotBlank(message = "User name is required.")
     private String name;
 
-    @NotBlank(message = "Phone is required.")
+    @NotBlank(message = "Password is required.")
+    private String password;
+
+    @NotBlank(message = "Phone number is required.")
     @Pattern(regexp = "^0\\d{9}")
     private String phone;
 
@@ -27,5 +30,5 @@ public class URequestUser {
 
     private Boolean gender;
 
-    private Boolean status;
+    private Boolean isActive;
 }

@@ -24,4 +24,5 @@ public class Email {
 
     @Column(columnDefinition = "TEXT")
     private String body;
+
 }

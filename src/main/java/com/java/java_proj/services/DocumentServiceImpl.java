@@ -1,7 +1,8 @@
 package com.java.java_proj.services;
 
+import com.java.java_proj.dto.request.forcreate.CRequestDocument;
+import com.java.java_proj.dto.request.forupdate.URequestDocument;
 import com.java.java_proj.dto.response.fordetail.DResponseDocument;
-import com.java.java_proj.dto.response.fordetail.LResponseDocument;
 import com.java.java_proj.entities.Document;
 import com.java.java_proj.entities.User;
 import com.java.java_proj.exceptions.HttpException;
@@ -9,67 +10,63 @@ import com.java.java_proj.repositories.DocumentRepository;
 import com.java.java_proj.services.templates.DocumentService;
 import com.java.java_proj.util.CustomUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDate;
+import java.io.IOException;
+import java.util.List;
 
 @Service
 public class DocumentServiceImpl implements DocumentService {
 
     @Autowired
-    DocumentRepository documentRepository;
-    @Autowired
     FirebaseFileService fileService;
+    @Autowired
+    DocumentRepository documentRepository;
 
     private User getOwner() {
         return SecurityContextHolder.getContext().getAuthentication() == null ? null :
                 ((CustomUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
     }
 
-    @Override
-    public Page<LResponseDocument> findAll() {
 
-        Pageable pageable = PageRequest.of(0, 10);
-        return documentRepository.findAllBy(pageable);
+    @Override
+    public List<DResponseDocument> findAll() {
+        return documentRepository.findAllBy();
+
     }
 
     @Override
     public DResponseDocument findById(Integer id) {
-        return documentRepository.findFirstById(id)
-                .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Document not found."));
+        return documentRepository.findOneById(id)
+                .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Resource not found"));
     }
 
     @Override
-    public DResponseDocument addDocument(String name, String description, MultipartFile file) {
+    public DResponseDocument createDocument(CRequestDocument requestDocument) {
+
         User owner = getOwner();
 
         try {
 
             // save to cloud
-            String generatedName = fileService.save(file);
+            String generatedName = fileService.save(requestDocument.getFile());
             String imageUrl = fileService.getImageUrl(generatedName);
 
             // create entity
-            Document document = new Document();
-            document.setName(name);
-            document.setDescription(description);
-            document.setFilename(file.getOriginalFilename());
-            document.setGeneratedName(generatedName);
-            document.setUrl(imageUrl);
-            document.setCreatedDate(LocalDate.now());
-            document.setCreatedBy(owner);
+            Document resource = Document.builder()
+                    .name(requestDocument.getName())
+                    .description(requestDocument.getDescription())
+                    .filename(requestDocument.getFile().getOriginalFilename())
+                    .generatedName(generatedName)
+                    .url(imageUrl)
+                    .build();
 
-            document = documentRepository.save(document);
 
-            return documentRepository.findFirstById(document.getId())
-                    .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Document not found."));
+            resource = documentRepository.save(resource);
 
+            return documentRepository.findOneById(resource.getId()).orElse(null);
 
         } catch (Exception e) {
             throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, "Can't save file");
@@ -77,11 +74,33 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public void deleteDocument(Integer id) {
-        if (documentRepository.countById(id) == 0) {
-            throw new HttpException(HttpStatus.NOT_FOUND, "Document not found");
-        }
+    public DResponseDocument updateDocument(URequestDocument requestDocument) {
 
-        documentRepository.deleteById(id);
+            Document document = documentRepository.findById(requestDocument.getId())
+                    .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Document not found."));
+
+            document.setName(requestDocument.getName());
+            document.setDescription(requestDocument.getDescription());
+
+            documentRepository.save(document);
+
+            return documentRepository.findOneById(document.getId()).orElse(null);
+
+    }
+
+    @Override
+    public void deleteFile(Integer id) {
+        try {
+            Document resource = documentRepository.findById(id)
+                    .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Document not found."));
+
+            // delete file on firebase
+            fileService.delete(resource.getGeneratedName());
+
+            // delete entity
+            documentRepository.deleteById(id);
+        } catch (IOException e) {
+            throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, "Can't delete file.");
+        }
     }
 }

@@ -3,7 +3,6 @@ package com.java.java_proj.entities;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "documents")
@@ -11,7 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+@Builder
 public class Document {
 
     @Id
@@ -32,11 +31,4 @@ public class Document {
 
     @Column(name = "url", nullable = false)
     private String url;
-
-    @Column(name = "created_date")
-    private LocalDate createdDate;
-
-    @ManyToOne
-    @JoinColumn(name = "created_by")
-    private User createdBy;
 }

@@ -27,8 +27,7 @@ public class FirebaseFileService implements IImageService {
     String BUCKET_NAME = "spring-60dd1.appspot.com";
     String IMAGE_URL = "https://storage.googleapis.com/spring-60dd1.appspot.com/%s";
 
-    @EventListener
-    public void init(ApplicationReadyEvent event) {
+    public void init() {
 
         // initialize Firebase
         try {

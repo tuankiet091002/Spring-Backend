@@ -1,17 +1,20 @@
 package com.java.java_proj.services.templates;
 
+import com.java.java_proj.dto.request.forcreate.CRequestDocument;
+import com.java.java_proj.dto.request.forupdate.URequestDocument;
 import com.java.java_proj.dto.response.fordetail.DResponseDocument;
-import com.java.java_proj.dto.response.fordetail.LResponseDocument;
-import org.springframework.data.domain.Page;
-import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public interface DocumentService {
 
-    Page<LResponseDocument> findAll();
+    List<DResponseDocument> findAll();
 
     DResponseDocument findById(Integer id);
 
-    DResponseDocument addDocument(String name, String description, MultipartFile file);
+    DResponseDocument createDocument(CRequestDocument requestDocument);
 
-    void deleteDocument(Integer id);
+    DResponseDocument updateDocument(URequestDocument requestDocument);
+
+    void deleteFile(Integer id);
 }
