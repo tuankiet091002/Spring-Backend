@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Null;
@@ -19,7 +20,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/document")
-@Api(tags = "Channel")
+@CrossOrigin(origins = "http://localhost:3000")
+@Api(tags = "Document")
 public class DocumentController {
 
     @Autowired
@@ -34,7 +36,7 @@ public class DocumentController {
     }
 
     @GetMapping("/{documentId}")
-    public ResponseEntity<DResponseDocument> getOneChannel(@PathVariable Integer documentId) {
+    public ResponseEntity<DResponseDocument> getOneDocument(@PathVariable Integer documentId) {
 
         DResponseDocument documents = documentService.findById(documentId);
 
@@ -42,15 +44,16 @@ public class DocumentController {
     }
 
     @PostMapping("")
-    public ResponseEntity<DResponseDocument> createDocument(@Valid @RequestBody CRequestDocument requestChannel,
-                                                          BindingResult bindingResult) {
+    public ResponseEntity<DResponseDocument> createDocument(@RequestParam(value = "name", defaultValue = "") String name,
+                                                            @RequestParam(value = "description", defaultValue = "") String description,
+                                                            @RequestParam(value = "file") MultipartFile file) {
 
-        // get validation error
-        if (bindingResult.hasErrors()) {
-            throw new HttpException(HttpStatus.BAD_REQUEST, bindingResult);
-        }
+        CRequestDocument requestDocument = new CRequestDocument();
+        requestDocument.setName(name);
+        requestDocument.setDescription(description);
+        requestDocument.setFile(file);
 
-        DResponseDocument document = documentService.createDocument(requestChannel);
+        DResponseDocument document = documentService.createDocument(requestDocument);
 
         return new ResponseEntity<>(document, HttpStatus.OK);
     }
@@ -70,7 +73,7 @@ public class DocumentController {
     }
 
     @DeleteMapping("/{documentId}")
-    public ResponseEntity<Null> deleteChannel(@PathVariable Integer documentId) {
+    public ResponseEntity<Null> deleteDocument(@PathVariable Integer documentId) {
 
         documentService.deleteFile(documentId);
 
