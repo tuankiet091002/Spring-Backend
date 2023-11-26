@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
         }
 
         // check if phone exist
-        if (userRepository.countByPhone(requestUser.getPhone()) > 0) {
+        if (!Objects.equals(requestUser.getPhone(), user.getPhone()) && userRepository.countByPhone(requestUser.getPhone()) > 0) {
             throw new HttpException(HttpStatus.BAD_REQUEST, "User with that phone number is existed. Please pick another number.");
         }
 
