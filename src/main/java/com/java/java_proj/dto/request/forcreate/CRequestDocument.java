@@ -14,10 +14,13 @@ public class CRequestDocument {
     @NotBlank(message = "Name  is required.")
     private String name;
 
-    @NotBlank(message = "Email address is required.")
+    @NotBlank(message = "Document description is required.")
     private String description;
 
-    @NotNull(message = "File is required")
+    @NotBlank(message = "Document content is required.")
+    private String content;
+
+    @NotNull(message = "Document file is required.")
     private MultipartFile file;
 
 }

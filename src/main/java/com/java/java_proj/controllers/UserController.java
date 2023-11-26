@@ -15,6 +15,7 @@ import com.java.java_proj.services.templates.UserService;
 import com.java.java_proj.util.CustomUserDetail;
 import com.java.java_proj.util.JWTTokenProvider;
 import io.swagger.annotations.Api;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
@@ -104,10 +105,10 @@ public class UserController {
     public ResponseEntity<Page<DResponseUser>> getAllUser(@RequestParam(value = "id", defaultValue = "0") Integer id,
                                                           @RequestParam(value = "name", defaultValue = "") String name,
                                                           @RequestParam(value = "email", defaultValue = "") String email,
-                                                          @RequestParam(value = "order-by", defaultValue = "dob") String orderBy,
-                                                          @RequestParam(value = "page-no", defaultValue = "1") Integer page,
-                                                          @RequestParam(value = "page-size", defaultValue = "10") Integer size,
-                                                          @RequestParam(value = "order-direction", defaultValue = "DESC") String orderDirection) {
+                                                          @RequestParam(value = "orderBy", defaultValue = "dob") String orderBy,
+                                                          @RequestParam(value = "pageNo", defaultValue = "1") Integer page,
+                                                          @RequestParam(value = "pageSize", defaultValue = "10") Integer size,
+                                                          @RequestParam(value = "orderDirection", defaultValue = "DESC") String orderDirection) {
 
         List<String> allowedFields = Arrays.asList("id", "name", "email", "dob", "gender", "role");
         if (!allowedFields.contains(orderBy)) {
@@ -120,11 +121,16 @@ public class UserController {
         }
 
         Page<DResponseUser> userPage = userService.getAllUser(id, name, email, orderBy, page, size, orderDirection);
-        if (userPage.isEmpty()) {
-            throw new HttpException(HttpStatus.NOT_FOUND, "Currently no records.");
-        }
 
         return new ResponseEntity<>(userPage, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{userEmail}")
+    public ResponseEntity<DResponseUser> getUser(@PathVariable String userEmail) {
+
+        DResponseUser user = userService.getUser(userEmail);
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PutMapping()
@@ -143,7 +149,7 @@ public class UserController {
     @PutMapping(value = "/{id}/role")
     public ResponseEntity<DResponseUser> updateUserRole(@PathVariable Integer id, @RequestParam("role") String role) {
 
-        if (!role.equals("trainer") && !role.equals("class_admin") && !role.equals("super_admin")) {
+        if (!role.equals("admin") && !role.equals("user") ) {
             throw new HttpException(HttpStatus.BAD_REQUEST, "Role is invalid");
         }
 

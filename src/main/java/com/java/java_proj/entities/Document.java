@@ -3,6 +3,9 @@ package com.java.java_proj.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "documents")
@@ -23,12 +26,15 @@ public class Document {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "filename", nullable = false)
-    private String filename;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "document", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("createdDate DESC")
+    private List<DocumentVersion> documentVersions = new ArrayList<>();
 
-    @Column(name = "generated_name", nullable = false)
-    private String generatedName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by")
+    private User createdBy;
 
-    @Column(name = "url", nullable = false)
-    private String url;
+    @Column(name = "created_date")
+    private LocalDateTime createdDate;
+
 }

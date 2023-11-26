@@ -2,8 +2,10 @@ package com.java.java_proj.dto.request.forupdate;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -13,10 +15,14 @@ public class URequestDocument {
     @NotNull(message = "Document id is required.")
     private Integer id;
 
-    @NotBlank(message = "Document name is required.")
-    private String name;
+    private Integer version;
 
-    @NotBlank(message = "Email address is required.")
     private String description;
+
+    @NotBlank(message = "Document content is required.")
+    private String content;
+
+    @NotNull(message = "Document file is required.")
+    private MultipartFile file;
 
 }

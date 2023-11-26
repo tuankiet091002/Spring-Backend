@@ -18,6 +18,4 @@ public interface DResponseUser {
     public LResponseUserPermission getRole();
 
     public Boolean getGender();
-
-    public Boolean getIsActive();
 }

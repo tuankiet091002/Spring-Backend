@@ -12,6 +12,8 @@ public interface UserService {
     Page<DResponseUser> getAllUser(Integer id, String name, String email,
                                    String orderBy, Integer page, Integer size, String orderDirection);
 
+    public DResponseUser getUser(String userEmail);
+
     public DResponseUser createUser(CRequestUser user);
 
     public DResponseUser updateUser(URequestUser user);

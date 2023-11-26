@@ -1,14 +1,21 @@
 package com.java.java_proj.dto.response.fordetail;
 
-public interface DResponseDocument {
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    public Integer getId();
+import java.util.List;
 
-    public String getName();
+@NoArgsConstructor
+@Data
+public class DResponseDocument {
 
-    public String getDescription();
+    private Integer id;
 
-    public String getFilename();
+    private String name;
 
-    public String getUrl();
+    private String description;
+
+    private List<String> versionList;
+
+    private DResponseDocumentVersion documentVersion;
 }

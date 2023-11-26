@@ -12,8 +12,6 @@ import com.java.java_proj.repositories.UserRepository;
 import com.java.java_proj.services.templates.UserService;
 import com.java.java_proj.util.CustomUserDetail;
 import com.java.java_proj.util.DateFormatter;
-import com.java.java_proj.util.EmailSender;
-import com.java.java_proj.util.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -46,7 +44,6 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             return null;
         }
-
     }
 
     @Override
@@ -62,6 +59,16 @@ public class UserServiceImpl implements UserService {
                 Objects.equals(orderBy, "role") ? "role.role" : orderBy).descending());
 
         return userRepository.findAllBy(id, name, email, paging);
+    }
+
+    @Override
+    @Transactional
+    public DResponseUser getUser(String userEmail) {
+        DResponseUser responseUser = userRepository.findByEmail(userEmail);
+        if (responseUser == null)
+            throw new HttpException(HttpStatus.NOT_FOUND, "User not found");
+
+        return responseUser;
     }
 
     @Override
@@ -98,7 +105,6 @@ public class UserServiceImpl implements UserService {
         user.setIsActive(true);
         user.setCreatedDate(LocalDate.now());
         user.setCreatedBy(owner);
-
 
         userRepository.save(user);
         return userRepository.findByEmail(user.getEmail());
@@ -137,7 +143,7 @@ public class UserServiceImpl implements UserService {
         user.setModifiedDate(LocalDate.now());
         user.setModifiedBy(owner);
 
-        // Save to db
+        // save to db
         userRepository.save(user);
         return userRepository.findByEmail(user.getEmail());
     }
