@@ -26,7 +26,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/document")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5137")
 @Api(tags = "Document")
 public class DocumentController {
 
