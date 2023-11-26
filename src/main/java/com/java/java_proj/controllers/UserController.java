@@ -106,7 +106,7 @@ public class UserController {
                                                           @RequestParam(value = "name", defaultValue = "") String name,
                                                           @RequestParam(value = "email", defaultValue = "") String email,
                                                           @RequestParam(value = "orderBy", defaultValue = "dob") String orderBy,
-                                                          @RequestParam(value = "pageNo", defaultValue = "1") Integer page,
+                                                          @RequestParam(value = "pageNo", defaultValue = "0") Integer page,
                                                           @RequestParam(value = "pageSize", defaultValue = "10") Integer size,
                                                           @RequestParam(value = "orderDirection", defaultValue = "DESC") String orderDirection) {
 
