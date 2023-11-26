@@ -25,10 +25,6 @@ public class URequestUser {
     @NotBlank(message = "Date of birth is required.")
     private String dob;
 
-    @NotBlank(message = "User type is required")
-    private String role;
-
     private Boolean gender;
 
-    private Boolean isActive;
 }

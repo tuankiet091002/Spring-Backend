@@ -148,11 +148,19 @@ public class UserController {
     @PutMapping(value = "/{id}/role")
     public ResponseEntity<DResponseUser> updateUserRole(@PathVariable Integer id, @RequestParam("role") String role) {
 
-        if (!role.equals("admin") && !role.equals("user") ) {
+        if (!role.equals("admin") && !role.equals("user")) {
             throw new HttpException(HttpStatus.BAD_REQUEST, "Role is invalid");
         }
 
         DResponseUser user = userService.updateUserRole(id, role);
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/{id}/password")
+    public ResponseEntity<DResponseUser> changeUserPassword(@PathVariable Integer id, @RequestBody String password) {
+
+        DResponseUser user = userService.changePassword(id, password);
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }

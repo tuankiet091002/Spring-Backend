@@ -122,30 +122,35 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(requestUser.getId())
                 .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "User not found"));
 
-        //get UserPermission by role from db
-        UserPermission role = userPermissionRepository.findByRole(requestUser.getRole());
-        if (role == null) {
-            throw new HttpException(HttpStatus.NOT_FOUND, "Role not found.");
-        }
-
         // check if phone exist
         if (!Objects.equals(requestUser.getPhone(), user.getPhone()) && userRepository.countByPhone(requestUser.getPhone()) > 0) {
             throw new HttpException(HttpStatus.BAD_REQUEST, "User with that phone number is existed. Please pick another number.");
         }
 
         // Set value to user after update to db
-        user.setRole(role);
         user.setName(requestUser.getName());
         user.setPassword(bCryptPasswordEncoder.encode(requestUser.getPassword()));
         user.setPhone(requestUser.getPhone());
         user.setDob(dateFormatter.formatDate(requestUser.getDob()));
         user.setGender(requestUser.getGender());
-        user.setIsActive(requestUser.getIsActive());
         user.setModifiedDate(LocalDate.now());
         user.setModifiedBy(owner);
 
         // save to db
         userRepository.save(user);
+        return userRepository.findByEmail(user.getEmail());
+    }
+
+    @Override
+    public DResponseUser changePassword(Integer id, String password) {
+        // check user
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new HttpException(HttpStatus.BAD_REQUEST, "User not found."));
+
+        user.setPassword(bCryptPasswordEncoder.encode(password));
+
+        userRepository.save(user);
+
         return userRepository.findByEmail(user.getEmail());
     }
 
@@ -167,6 +172,7 @@ public class UserServiceImpl implements UserService {
 
         return userRepository.findByEmail(user.getEmail());
     }
+
 
     @Override
     public User verifyUser(RequestLogin requestLogin) {
