@@ -15,7 +15,6 @@ import com.java.java_proj.services.templates.UserService;
 import com.java.java_proj.util.CustomUserDetail;
 import com.java.java_proj.util.JWTTokenProvider;
 import io.swagger.annotations.Api;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
@@ -34,7 +33,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "http://localhost:5137")
+@CrossOrigin(origins = "http://localhost:5173")
 @Api(tags = "User")
 public class UserController {
 
