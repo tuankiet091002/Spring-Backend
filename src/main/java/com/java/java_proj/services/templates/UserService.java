@@ -2,6 +2,7 @@ package com.java.java_proj.services.templates;
 
 import com.java.java_proj.dto.request.forcreate.CRequestUser;
 import com.java.java_proj.dto.request.forupdate.URequestUser;
+import com.java.java_proj.dto.request.forupdate.URequestUserPassword;
 import com.java.java_proj.dto.request.security.RequestLogin;
 import com.java.java_proj.dto.response.fordetail.DResponseUser;
 import com.java.java_proj.entities.User;
@@ -20,7 +21,7 @@ public interface UserService {
 
     public DResponseUser updateUserRole(Integer id, String role);
 
-    public DResponseUser changePassword(Integer id, String password);
+    public DResponseUser changePassword(Integer id, URequestUserPassword requestUserPassword);
 
     public User verifyUser(RequestLogin requestLogin);
 }

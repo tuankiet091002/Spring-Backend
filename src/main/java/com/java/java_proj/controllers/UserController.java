@@ -2,6 +2,7 @@ package com.java.java_proj.controllers;
 
 import com.java.java_proj.dto.request.forcreate.CRequestUser;
 import com.java.java_proj.dto.request.forupdate.URequestUser;
+import com.java.java_proj.dto.request.forupdate.URequestUserPassword;
 import com.java.java_proj.dto.request.security.RequestLogin;
 import com.java.java_proj.dto.request.security.RequestRefreshToken;
 import com.java.java_proj.dto.response.fordetail.DResponseUser;
@@ -158,9 +159,9 @@ public class UserController {
     }
 
     @PutMapping(value = "/{id}/password")
-    public ResponseEntity<DResponseUser> changeUserPassword(@PathVariable Integer id, @RequestBody String password) {
+    public ResponseEntity<DResponseUser> changeUserPassword(@PathVariable Integer id, @RequestBody URequestUserPassword requestUserPassword) {
 
-        DResponseUser user = userService.changePassword(id, password);
+        DResponseUser user = userService.changePassword(id, requestUserPassword);
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }

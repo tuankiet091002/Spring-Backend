@@ -2,6 +2,7 @@ package com.java.java_proj.services;
 
 import com.java.java_proj.dto.request.forcreate.CRequestUser;
 import com.java.java_proj.dto.request.forupdate.URequestUser;
+import com.java.java_proj.dto.request.forupdate.URequestUserPassword;
 import com.java.java_proj.dto.request.security.RequestLogin;
 import com.java.java_proj.dto.response.fordetail.DResponseUser;
 import com.java.java_proj.entities.User;
@@ -142,12 +143,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public DResponseUser changePassword(Integer id, String password) {
+    public DResponseUser changePassword(Integer id, URequestUserPassword requestUserPassword) {
         // check user
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new HttpException(HttpStatus.BAD_REQUEST, "User not found."));
 
-        user.setPassword(bCryptPasswordEncoder.encode(password));
+        if (!bCryptPasswordEncoder.matches(requestUserPassword.getOldPassword(), user.getPassword())) {
+            throw new HttpException(HttpStatus.BAD_REQUEST, "Wrong password.");
+        }
+        user.setPassword(bCryptPasswordEncoder.encode(requestUserPassword.getNewPassword()));
 
         userRepository.save(user);
 
