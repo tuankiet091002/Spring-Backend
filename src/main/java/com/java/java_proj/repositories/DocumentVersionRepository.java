@@ -15,7 +15,7 @@ public interface DocumentVersionRepository extends JpaRepository<DocumentVersion
 
    DocumentVersion findTopByDocumentOrderByCreatedDateDesc(Document document);
 
-   Optional<DocumentVersion> findByVersionContaining(String version);
+   Optional<DocumentVersion> findByDocumentAndVersionContaining(Document document, String version);
 
    @Query("SELECT d.version FROM DocumentVersion d WHERE d.document = :document")
    List<String> findVersionList(Document document);

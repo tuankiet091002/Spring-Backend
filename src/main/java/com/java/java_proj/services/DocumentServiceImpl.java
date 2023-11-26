@@ -75,7 +75,7 @@ public class DocumentServiceImpl implements DocumentService {
         if (Objects.equals(documentVersion, "latest")) {
             selectedVersion = documentVersionRepository.findTopByDocumentOrderByCreatedDateDesc(document);
         } else {
-            selectedVersion = documentVersionRepository.findByVersionContaining(documentVersion)
+            selectedVersion = documentVersionRepository.findByDocumentAndVersionContaining(document, documentVersion)
                     .orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Can't find document with that version."));
         }
 
