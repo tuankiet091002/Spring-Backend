@@ -181,7 +181,7 @@ public class DocumentServiceImpl implements DocumentService {
             try {
                 fileService.delete(ver.getGeneratedName());
             } catch (IOException e) {
-                throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, "Can't delete file.");
+                System.out.println("Can't delete file");
             }
         });
 
