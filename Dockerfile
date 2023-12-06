@@ -1,13 +1,13 @@
 FROM eclipse-temurin:11-jdk-jammy AS builder
-WORKDIR /backend
+WORKDIR /home/proj/backend
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
-RUN ./mvnw dependency:go-offline
+RUN --mount=type=cache,target=/root/.m2 ./mvnw dependency:resolve-plugins dependency:resolve
 COPY ./src ./src
-RUN ./mvnw clean install
+RUN ./mvnw install
 
 FROM eclipse-temurin:11-jre-jammy
-WORKDIR /backend
+WORKDIR /home/proj/backend
 EXPOSE 8080
-COPY --from=builder ./backend/target/*.jar ./app.jar
+COPY --from=builder ./home/proj/backend/target/*.jar ./app.jar
 CMD ["java","-jar","app.jar"]
