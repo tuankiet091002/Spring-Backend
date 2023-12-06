@@ -23,11 +23,27 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Docker meta
+        id: docker_meta
+        uses: docker/metadata-action@v5
+        with:
+          images: tuankiet091002/document_management
+          flavor: |
+            latest=false
+          tags: |
+            type=raw,value=04
+            type=raw,value=latest,enable=${{ endsWith(github.ref, github.event.repository.default_branch) }}
+            type=ref,event=pr
+            type=ref,event=branch
+            type=semver,pattern={{version}}
+
       - name: Build and export to Docker
         uses: docker/build-push-action@v5
         with:
           push: false
-          load: true # Export to Docker Engine rather than pushing to a registry}
+          load: true # Export to Docker Engine rather than pushing to a registry
+          tags: ${{ github.run_id }}
+          target: test
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/amd64
