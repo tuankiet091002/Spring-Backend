@@ -49,9 +49,6 @@ jobs:
           platforms: linux/amd64
 
           # for simple tests (npm test, etc.) just run a local image in docker
-      - name: Unit Testing
-        run: ./mvnw test
-
 #      - name: Docker Build and Push to Docker Hub
 #        uses: docker/build-push-action@v5
 #        with:

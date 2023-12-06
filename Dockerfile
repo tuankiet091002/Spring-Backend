@@ -5,6 +5,7 @@ COPY mvnw pom.xml ./
 RUN --mount=type=cache,target=/root/.m2 ./mvnw dependency:resolve-plugins dependency:resolve
 COPY ./src ./src
 RUN ./mvnw install
+RUN ./mvnw test
 
 FROM eclipse-temurin:11-jre-jammy
 WORKDIR /home/proj/backend
