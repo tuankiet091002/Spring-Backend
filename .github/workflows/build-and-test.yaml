@@ -49,8 +49,8 @@ jobs:
           platforms: linux/amd64
 
           # for simple tests (npm test, etc.) just run a local image in docker
-      - name: Unit Testing in Docker
-        run: docker run --rm ${{ github.run_id }} echo "./mvnw test"
+      - name: Unit Testing
+        run: ./mvnw test
 
 #      - name: Docker Build and Push to Docker Hub
 #        uses: docker/build-push-action@v5
