@@ -37,9 +37,6 @@ jobs:
             type=ref,event=branch
             type=semver,pattern={{version}}
 
-      - name: Grant Execute permission to Maven Wrapper
-        run: chmod +x mvnw
-
       - name: Build and Export to Docker
         uses: docker/build-push-action@v5
         with:
