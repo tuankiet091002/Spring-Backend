@@ -10,7 +10,6 @@ jobs:
   build-images:
     name: Build Images
     runs-on: ubuntu-latest
-    secrets: inherit
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
