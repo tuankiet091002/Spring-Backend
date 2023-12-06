@@ -51,8 +51,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public Page<DResponseUser> getAllUser(Integer id, String name, String email,
                                           String orderBy, Integer page, Integer size, String orderDirection) {
-        System.out.println(page);
-        System.out.println(size);
+
         // if orderBy = role, need to access field of child class (Permission.role)
         Pageable paging = orderDirection.equals("ASC")
                 ? PageRequest.of(page, size, Sort.by(

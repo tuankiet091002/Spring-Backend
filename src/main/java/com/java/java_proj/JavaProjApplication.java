@@ -17,6 +17,7 @@ import java.util.List;
 
 @SpringBootApplication
 public class JavaProjApplication implements CommandLineRunner {
+
     @Autowired
     FirebaseFileService fileService;
     @Autowired
@@ -24,7 +25,7 @@ public class JavaProjApplication implements CommandLineRunner {
     @Autowired
     private EmailRepository emailRepository;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args)  {
         SpringApplication.run(JavaProjApplication.class, args);
     }
 

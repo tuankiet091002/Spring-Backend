@@ -9,8 +9,6 @@ import com.google.firebase.cloud.StorageClient;
 import com.java.java_proj.exceptions.HttpException;
 import com.java.java_proj.services.templates.IImageService;
 import org.apache.commons.io.FilenameUtils;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

@@ -81,7 +81,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         // set version
         DResponseDocumentVersion selectedResponseVersion = modelMapper.map(selectedVersion, DResponseDocumentVersion.class);
-        System.out.println(selectedResponseVersion);
+
         responseDocument.setDocumentVersion(selectedResponseVersion);
         // set version list
         responseDocument.setVersionList(documentVersionRepository.findVersionList(document));
@@ -140,7 +140,7 @@ public class DocumentServiceImpl implements DocumentService {
             String imageUrl = fileService.getImageUrl(generatedName);
 
             // get appropriate version
-            DocumentVersion newestVer = document.getDocumentVersions().get(0);
+            DocumentVersion newestVer = documentVersionRepository.findTopByDocumentOrderByCreatedDateDesc(document);
             String version = "";
             if (requestDocument.getVersion() != null) {
                 version = newestVer.updateMainVer(requestDocument.getVersion());
