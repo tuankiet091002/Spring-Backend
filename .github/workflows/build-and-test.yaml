@@ -23,7 +23,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Docker meta
+      - name: Docker Meta
         id: docker_meta
         uses: docker/metadata-action@v5
         with:
@@ -37,7 +37,8 @@ jobs:
             type=ref,event=branch
             type=semver,pattern={{version}}
 
-      - name: Build and export to Docker
+      - name: Build and Export to Docker
+        run: chmod +x ./gradlew
         uses: docker/build-push-action@v5
         with:
           push: false
