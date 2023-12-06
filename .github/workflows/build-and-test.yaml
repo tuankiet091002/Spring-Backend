@@ -52,12 +52,12 @@ jobs:
       - name: Unit Testing in Docker
         run: docker run --rm ${{ github.run_id }} echo "./mvnw test"
 
-      - name: Docker Build and Push to Docker Hub
-        uses: docker/build-push-action@v5
-        with:
-          push: true
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          labels: ${{ steps.docker_meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
+#      - name: Docker Build and Push to Docker Hub
+#        uses: docker/build-push-action@v5
+#        with:
+#          push: true
+#          tags: ${{ steps.docker_meta.outputs.tags }}
+#          labels: ${{ steps.docker_meta.outputs.labels }}
+#          cache-from: type=gha
+#          cache-to: type=gha,mode=max
+#          platforms: linux/amd64,linux/arm64,linux/arm/v7
