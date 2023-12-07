@@ -1,5 +1,5 @@
 name: Build and unit test
-run-name: ${{ github.actor }} is learning GitHub Actions
+run-name: ${{ github.actor }} is testing GitHub Actions
 on:
   push:
     branches:
@@ -40,10 +40,11 @@ jobs:
       - name: Build and Export to Docker
         uses: docker/build-push-action@v5
         with:
+          context: .
           push: false
           load: true # Export to Docker Engine rather than pushing to a registry
           tags: ${{ github.run_id }}
-          target: builder
+          target: test
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/amd64
