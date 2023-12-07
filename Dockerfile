@@ -1,14 +1,12 @@
-FROM eclipse-temurin:11-jdk-jammy AS base
+FROM eclipse-temurin:11-jdk-jammy AS build
 WORKDIR /home/proj/backend
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
 COPY ./src ./src
-
-FROM base as test
-RUN ["./mvnw", "test"]
-
-FROM base as build
 RUN --mount=type=cache,target=/root/.m2 ./mvnw -f ./pom.xml clean package
+
+FROM build as test
+RUN ["./mvnw", "test"]
 
 FROM eclipse-temurin:11-jre-jammy AS production
 WORKDIR /home/proj/backend
