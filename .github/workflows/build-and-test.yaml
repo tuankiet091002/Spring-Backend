@@ -34,8 +34,9 @@ jobs:
       - name: Docker Build and Push to Docker Hub
         uses: docker/build-push-action@v5
         with:
+          context: "{{defaultContext}}"
           push: true
           target: production
-          tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/document_management:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
