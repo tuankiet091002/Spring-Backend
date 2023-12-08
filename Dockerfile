@@ -1,5 +1,5 @@
 FROM eclipse-temurin:11-jdk-jammy AS build
-WORKDIR /home/proj/backend
+WORKDIR /home/app
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
 COPY ./src ./src
@@ -9,7 +9,7 @@ FROM build as test
 RUN ["./mvnw", "test"]
 
 FROM eclipse-temurin:11-jre-jammy AS production
-WORKDIR /home/proj/backend
+WORKDIR /home/app
 EXPOSE 8080
-COPY --from=build ./home/proj/backend/target/*.jar ./app.jar
+COPY --from=build ./home/app/target/*.jar ./app.jar
 CMD ["java","-jar","app.jar"]
